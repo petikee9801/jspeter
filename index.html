@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>js.peter</title>
+<link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAAAIAD8AgAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAsNJREFUeJx1k01oXGUYhZ/v/b47N5OYdJRJaidGQUEFVy5cVESouFHElQvBZYViFSRY6k+kxUClKi4UFX9qFhV0rWAFQQSlokaMIFVQSqpOSBNjrLaTmbn3e9/XRaDg31keDs/qOYH/ydOHH3M3I+fM6GgTdzh46Ej45+5fxeGDD3ujLBgbG+O9Dz7h93PnufeeO0ipwM0A58DcU+E/AU8eeMgbRWJ1/Td+7q7z2ZdLDCvllptv4vY9u+n1togSiAHm5o+GvwEen33AYxTOrm2w8Pa7mGaKImEOI2XJvr33MT4xgeWMiNBIwtz80SAAT8zu95wzjZRYXDrF2FiT6669mqyKhEAsEn13qpypVfFc4aYcOfSoC0CdK0wzJz46yXc/LOMOv6yskWKkxhkJidZPZ1HNqGZca3JdkeuK9MiDez2K8OPpM3y++BUSSwaVo+Y0GyU37mhx12VthqfPsNqeoNNugRpmBmqIqlLXNSKRnZfvYqI1TghCSpFKM/tm93P/Gy/x/cw0KyurpBBQM9wcc0MkBFSdmc4Ud995G3tu3U3ZKMAhSaScvoLmDdejIyW9P/7ETVFVXIQgkQTg7tR1JqtRNApGypJqWFOkxPsnT3Bq5VuWvvmaK3dOobnGzNGckRiREAJmGXdDglM2EuOXjGLZaDQKupsrfPjpx6yt/sp0ZxLNNSGAqWKakedfWQgehOxOtoCZ0elMEpMwHFYsf7FMd7HLzPQudoyPoubgjogQY4EAZCkAB8tUVcVku0W7fSn9wYD17gb9CwOuuWqKsoiEIKgqZopI2Aa8+tpC8NTEJRElAZE6K0UqiCmSTXECWRUzI4RtgeeffWHbRIBjbx4PIMSY6G0N6G8NiZIQEQLCxuZ5QgioOSEIz7z4egC4CAA4/tY7IaVIr9enrjPgmBpRIpvnLlAp1AjPvXzs4of+AkVWXI2ngyJsAAAAAElFTkSuQmCC">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
 
@@ -15,7 +16,7 @@
     --ink:#eceef0;
     --ink-dim:#8a8d93;
     --red:#c81f3a;
-    --white:#f5f4f0;
+    --white:#ffffff;
     --green:#2f8a52;
   }
 
@@ -47,8 +48,8 @@
     inset:0;
     z-index:1;
     background:
-      radial-gradient(ellipse 900px 700px at 50% 30%, rgba(8,9,10,0.2), rgba(8,9,10,0.86) 70%),
-      linear-gradient(180deg, rgba(8,9,10,0.4), rgba(8,9,10,0.9) 85%);
+      radial-gradient(ellipse 900px 700px at 50% 30%, rgba(8,9,10,0.05), rgba(8,9,10,0.55) 75%),
+      linear-gradient(180deg, rgba(8,9,10,0.15), rgba(8,9,10,0.6) 90%);
   }
 
   .grid{
@@ -196,6 +197,20 @@
     transform:translateY(105%);
     animation:name-rise 0.85s cubic-bezier(.16,.85,.2,1) 0.15s forwards;
   }
+  .name .shine{
+    background:linear-gradient(100deg, var(--ink) 35%, #ffffff 50%, var(--ink) 65%);
+    background-size:260% 100%;
+    background-position:100% 0;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    color:var(--ink);
+    animation:shine-sweep 5s ease-in-out 1.6s infinite;
+  }
+  @keyframes shine-sweep{
+    0%, 60%{background-position:100% 0;}
+    100%{background-position:-60% 0;}
+  }
   @keyframes name-rise{
     to{transform:translateY(0);}
   }
@@ -212,6 +227,18 @@
     border-radius:10px;
     overflow:hidden;
     box-shadow:0 20px 40px -24px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.04);
+    opacity:0;
+    transform:translateY(14px);
+    animation:
+      reveal 0.7s cubic-bezier(.16,.8,.24,1) 0.34s forwards,
+      terminal-glow 5s ease-in-out 2s infinite;
+  }
+  @keyframes terminal-glow{
+    0%, 100%{box-shadow:0 20px 40px -24px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.04), 0 0 0 rgba(200,31,58,0);}
+    50%{box-shadow:0 20px 40px -24px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.04), 0 0 26px -6px rgba(47,138,82,0.25);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .terminal{animation:none; opacity:1; transform:none;}
   }
   .terminal-bar{
     display:flex;
@@ -324,9 +351,9 @@
   }
 
   .discord{ --acc:#5865F2; --acc-bg:rgba(88,101,242,0.18); }
-  .tiktok{ --acc:#f5f4f0; --acc-bg:rgba(245,244,240,0.14); }
+  .tiktok{ --acc:#ffffff; --acc-bg:rgba(255,255,255,0.14); }
   .youtube{ --acc:#e0403d; --acc-bg:rgba(224,64,61,0.18); }
-  .x{ --acc:#f5f4f0; --acc-bg:rgba(245,244,240,0.14); }
+  .x{ --acc:#ffffff; --acc-bg:rgba(255,255,255,0.14); }
   .spotify{ --acc:#2e8b52; --acc-bg:rgba(46,139,82,0.2); }
 
   .divider{
@@ -372,7 +399,7 @@
 
   @media (prefers-reduced-motion:reduce){
     .avatar-frame::before, .avatar-frame::after, .link::after,
-    .cursor, .accentbar span{animation:none !important;}
+    .cursor, .accentbar span, .name .shine{animation:none !important;}
     .reveal, .name{animation:none !important; opacity:1 !important; transform:none !important;}
   }
 
@@ -451,10 +478,10 @@
       <p class="eyebrow reveal" style="animation-delay:.16s">Személyes Profil</p>
 
       <div class="name-wrap">
-        <h1 class="name">js<span class="dot">.</span>peter</h1>
+        <h1 class="name"><span class="shine">js</span><span class="dot">.</span><span class="shine">peter</span></h1>
       </div>
 
-      <div class="terminal reveal" style="animation-delay:.34s">
+      <div class="terminal">
         <div class="terminal-bar">
           <i></i><i></i><i></i>
           <span class="path">~/js.peter/status.sh</span>
@@ -522,7 +549,7 @@
 
   <script>
     // ---- loader ----
-    (function(){
+    try{
       var loader = document.getElementById('loader');
       function hideLoader(){
         loader.classList.add('hide');
@@ -534,10 +561,15 @@
           setTimeout(hideLoader, 300);
         });
       }
-    })();
+    }catch(e){
+      var l = document.getElementById('loader');
+      if(l) l.style.display = 'none';
+    }
+  </script>
 
+  <script>
     // ---- matrix / code rain background ----
-    (function(){
+    try{
       var canvas = document.getElementById('rain');
       var ctx = canvas.getContext('2d');
       var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -553,52 +585,59 @@
       window.addEventListener('resize', resize);
       resize();
 
-      if(reduced){
+      if(!reduced){
+        (function draw(){
+          ctx.fillStyle = 'rgba(8,9,10,0.14)';
+          ctx.fillRect(0,0,w,h);
+          ctx.font = fontSize + 'px JetBrains Mono, monospace';
+          for(var i=0; i<drops.length; i++){
+            var text = chars[Math.floor(Math.random()*chars.length)];
+            var x = i * fontSize;
+            var y = drops[i] * fontSize;
+            var roll = Math.random();
+            ctx.fillStyle = roll < 0.02 ? '#c81f3a' : roll < 0.05 ? '#2f8a52' : 'rgba(210,214,220,0.45)';
+            ctx.fillText(text, x, y);
+            if(y > h && Math.random() > 0.975){
+              drops[i] = 0;
+            }
+            drops[i] += 0.35;
+          }
+          requestAnimationFrame(draw);
+        })();
+      } else {
         ctx.fillStyle = '#08090a';
         ctx.fillRect(0,0,w,h);
-        return;
       }
+    }catch(e){ /* rain background is purely decorative — safe to skip */ }
+  </script>
 
-      function draw(){
-        ctx.fillStyle = 'rgba(8,9,10,0.14)';
-        ctx.fillRect(0,0,w,h);
-        ctx.font = fontSize + 'px JetBrains Mono, monospace';
-        for(var i=0; i<drops.length; i++){
-          var text = chars[Math.floor(Math.random()*chars.length)];
-          var x = i * fontSize;
-          var y = drops[i] * fontSize;
-          var roll = Math.random();
-          ctx.fillStyle = roll < 0.02 ? '#c81f3a' : roll < 0.05 ? '#2f8a52' : 'rgba(210,214,220,0.45)';
-          ctx.fillText(text, x, y);
-          if(y > h && Math.random() > 0.975){
-            drops[i] = 0;
-          }
-          drops[i] += 0.35;
-        }
-        requestAnimationFrame(draw);
-      }
-      draw();
-    })();
-
+  <script>
     // ---- typewriter quote ----
-    (function(){
-      var text = "Errors are just plot twists in your life.";
-      var el = document.getElementById('typed');
-      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if(reduced){ el.textContent = text; return; }
-      var i = 0;
-      function type(){
-        if(i <= text.length){
-          el.textContent = text.slice(0, i);
-          i++;
-          setTimeout(type, 32);
-        }
+    try{
+      var quoteText = "Errors are just plot twists in your life.";
+      var typedEl = document.getElementById('typed');
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(reducedMotion){
+        typedEl.textContent = quoteText;
+      } else {
+        var ti = 0;
+        (function typeChar(){
+          if(ti <= quoteText.length){
+            typedEl.textContent = quoteText.slice(0, ti);
+            ti++;
+            setTimeout(typeChar, 32);
+          }
+        })();
       }
-      setTimeout(type, 700);
-    })();
+    }catch(e){
+      var fallbackEl = document.getElementById('typed');
+      if(fallbackEl) fallbackEl.textContent = "Errors are just plot twists in your life.";
+    }
+  </script>
 
+  <script>
     // ---- shared view counter ----
-    (function(){
+    try{
       var counterKey = 'jspeter-hu-profile-2026-views';
       var seenKey = 'js_peter_has_viewed';
       var endpoint = localStorage.getItem(seenKey)
@@ -614,7 +653,10 @@
         .catch(function(){
           document.getElementById('viewCount').textContent = '—';
         });
-    })();
+    }catch(e){
+      var vc = document.getElementById('viewCount');
+      if(vc) vc.textContent = '—';
+    }
   </script>
 </body>
 </html>
