@@ -14,14 +14,14 @@
     --ink:#ece9e4;
     --ink-dim:#9a979a;
     --red:#b3172e;
-    --white:#e9e6df;
+    --white:#f5f4f0;
     --green:#2e4d38;
   }
 
   *{box-sizing:border-box; margin:0; padding:0;}
 
   html,body{
-    height:100%;
+    min-height:100%;
     background:var(--bg-0);
     color:var(--ink);
     font-family:'Inter', sans-serif;
@@ -82,7 +82,8 @@
   .wrap{
     position:relative;
     z-index:3;
-    min-height:100%;
+    min-height:100vh;
+    min-height:100dvh;
     display:flex;
     align-items:center;
     justify-content:center;
