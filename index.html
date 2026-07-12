@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>js.peter</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap');
 
   :root{
     --bg-0:#0c0c0d;
@@ -37,6 +37,28 @@
       radial-gradient(ellipse at 80% 90%, rgba(255,255,255,0.025), transparent 55%),
       repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 3px);
     background-color:var(--bg-0);
+  }
+
+  .glow{
+    pointer-events:none;
+    position:fixed;
+    inset:-20%;
+    z-index:1;
+    background:
+      radial-gradient(600px circle at 50% 8%, rgba(179,23,46,0.14), transparent 60%),
+      radial-gradient(560px circle at 12% 92%, rgba(46,77,56,0.16), transparent 60%),
+      radial-gradient(520px circle at 90% 78%, rgba(233,230,223,0.07), transparent 60%);
+    transform-origin:50% 50%;
+    animation:glow-orbit 70s linear infinite;
+  }
+
+  @keyframes glow-orbit{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .glow{animation:none;}
   }
 
   .vignette{
@@ -98,24 +120,30 @@
     width:132px;
     height:132px;
     border-radius:50%;
-    padding:3px;
-    background:conic-gradient(from -60deg, var(--red) 0deg 120deg, var(--green) 120deg 240deg, var(--white) 240deg 360deg);
     margin-bottom:22px;
+  }
+  .avatar-frame::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    background:conic-gradient(from 0deg, var(--red) 0deg 120deg, var(--green) 120deg 240deg, var(--white) 240deg 360deg);
     box-shadow:
       0 18px 40px -16px rgba(0,0,0,0.75),
       0 0 44px -12px rgba(179,23,46,0.35),
       0 0 44px -12px rgba(46,77,56,0.3);
+    animation:ring-spin 16s linear infinite;
   }
-  .avatar-frame::after{
-    content:"";
-    position:absolute;
-    inset:-6px;
-    border-radius:50%;
-    border:1px solid var(--line);
+  @keyframes ring-spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .avatar-frame::before{animation:none;}
   }
   .avatar{
-    width:100%;
-    height:100%;
+    position:absolute;
+    inset:4px;
     border-radius:50%;
     overflow:hidden;
     background:var(--bg-1);
@@ -127,6 +155,16 @@
     object-fit:cover;
     display:block;
     filter:grayscale(0.08) contrast(1.03);
+  }
+
+  .eyebrow{
+    font-family:'Inter', sans-serif;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    margin-bottom:10px;
   }
 
   .name{
@@ -143,26 +181,35 @@
   .name .dot{color:var(--red);}
 
   .quote{
-    margin-top:20px;
-    font-family:'Oswald', sans-serif;
-    font-weight:400;
+    margin-top:22px;
+    font-family:'Cormorant Garamond', serif;
+    font-weight:500;
     font-style:italic;
-    font-size:16px;
+    font-size:22px;
     letter-spacing:0.01em;
-    color:#c9c6c1;
+    color:#e3e0da;
     max-width:340px;
-    line-height:1.5;
+    line-height:1.4;
     position:relative;
-    padding:0 6px;
+    padding:0 8px;
+  }
+  .quote::before{
+    content:none;
+  }
+  .quote .qmark{
+    color:var(--red);
+    font-size:1.1em;
+    opacity:0.85;
   }
 
   .bio{
-    margin-top:14px;
+    margin-top:18px;
     font-size:13.5px;
-    line-height:1.7;
+    line-height:1.75;
     color:var(--ink-dim);
-    max-width:320px;
+    max-width:300px;
     font-weight:400;
+    letter-spacing:0.005em;
   }
 
   .links{
@@ -263,6 +310,7 @@
 </style>
 </head>
 <body>
+  <div class="glow"></div>
   <div class="vignette"></div>
   <div class="noise"></div>
   <div class="wrap">
@@ -276,9 +324,10 @@
         </div>
       </div>
 
+      <p class="eyebrow">Personal Profile</p>
       <h1 class="name">js<span class="dot">.</span>peter</h1>
 
-      <p class="quote">"Errors are just plot twists in your life."</p>
+      <p class="quote"><span class="qmark">“</span>Errors are just plot twists in your life.<span class="qmark">”</span></p>
 
       <p class="bio">IT-t tanulok. Az alábbi gombokon találod az elérhetőségeimet. Írj rám, ha kedved támadt! :)</p>
 
@@ -335,15 +384,21 @@
 
   <script>
     (function(){
-      var key = 'js_peter_view_count';
+      var counterKey = 'jspeter-hu-profile-2026-views';
       var seenKey = 'js_peter_has_viewed';
-      var count = parseInt(localStorage.getItem(key) || '0', 10);
-      if(!localStorage.getItem(seenKey)){
-        count += 1;
-        localStorage.setItem(key, String(count));
-        localStorage.setItem(seenKey, '1');
-      }
-      document.getElementById('viewCount').textContent = count;
+      var endpoint = localStorage.getItem(seenKey)
+        ? 'https://countapi.mileshilliard.com/api/v1/get/' + counterKey
+        : 'https://countapi.mileshilliard.com/api/v1/hit/' + counterKey;
+
+      fetch(endpoint)
+        .then(function(res){ return res.json(); })
+        .then(function(data){
+          document.getElementById('viewCount').textContent = data.value;
+          localStorage.setItem(seenKey, '1');
+        })
+        .catch(function(){
+          document.getElementById('viewCount').textContent = '—';
+        });
     })();
   </script>
 </body>
